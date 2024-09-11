@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_new_note"
+          android:title="Nova Anotação"/>
+    <item android:id="@+id/menu_sort_priority"
+          android:title="Ordenar por Prioridade"/>
+    <item android:id="@+id/menu_sort_alpha"
+          android:title="Ordenar por Ordem Alfabética"/>
+    <item android:id="@+id/menu_close"
+          android:title="Fechar"/>
+</menu>
