@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MyNotes</string>
+    <string name="adicionar_nova_anota_o">Adicionar Nova Anotação</string>
 </resources>

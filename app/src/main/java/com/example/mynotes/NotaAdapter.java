@@ -30,29 +30,31 @@ public class NotaAdapter extends ArrayAdapter<Nota> {
         }
 
         TextView tvTitulo = convertView.findViewById(R.id.tvTitulo);
+        View priorityIndicator = convertView.findViewById(R.id.priorityIndicator);
 
-        // Ajustar o título
         tvTitulo.setText(nota.getTitulo());
 
+        int priorityColor;
         switch (nota.getPrioridade()) {
             case 1: // Alta prioridade
-                tvTitulo.setTextColor(getContext().getResources().getColor(android.R.color.holo_red_dark));
+                priorityColor = getContext().getResources().getColor(android.R.color.holo_red_light);
                 break;
             case 2: // Prioridade normal
-                tvTitulo.setTextColor(getContext().getResources().getColor(android.R.color.holo_orange_dark));
+                priorityColor = getContext().getResources().getColor(android.R.color.holo_orange_light);
                 break;
             case 3: // Baixa prioridade
-                tvTitulo.setTextColor(getContext().getResources().getColor(android.R.color.holo_blue_dark));
+                priorityColor = getContext().getResources().getColor(android.R.color.holo_blue_light);
                 break;
             default:
-                tvTitulo.setTextColor(getContext().getResources().getColor(android.R.color.darker_gray));
+                priorityColor = getContext().getResources().getColor(android.R.color.darker_gray);
                 break;
         }
+        priorityIndicator.setBackgroundColor(priorityColor);
 
         return convertView;
     }
 
-    // Ordenar diretamente a lista interna e notificar a mudança
+
     public void sortByPriority() {
         Collections.sort(notas, new Comparator<Nota>() {
             @Override

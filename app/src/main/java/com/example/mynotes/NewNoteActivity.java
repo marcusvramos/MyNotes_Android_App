@@ -44,7 +44,7 @@ public class NewNoteActivity extends AppCompatActivity {
                     boolean sucesso = agenda.cadastrarNota(nota);
                     if (sucesso) {
                         Toast.makeText(NewNoteActivity.this, "Anotação salva com sucesso!", Toast.LENGTH_SHORT).show();
-                        finish(); // Voltar para a MainActivity após salvar
+                        finish();
                     } else {
                         Toast.makeText(NewNoteActivity.this, "Erro ao salvar anotação.", Toast.LENGTH_SHORT).show();
                     }
@@ -58,13 +58,13 @@ public class NewNoteActivity extends AppCompatActivity {
     private int getSelectedPriority() {
         int selectedId = rgPrioridade.getCheckedRadioButtonId();
         if (selectedId == R.id.rbAlta) {
-            return 1; // Alta prioridade
+            return 1;
         } else if (selectedId == R.id.rbNormal) {
-            return 2; // Prioridade normal
+            return 2;
         } else if (selectedId == R.id.rbBaixa) {
-            return 3; // Baixa prioridade
+            return 3;
         } else {
-            return -1; // Nenhuma prioridade selecionada
+            return -1;
         }
     }
 }
