@@ -10,7 +10,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true" />
 
-    <!-- TextView para indicar lista vazia -->
     <TextView
             android:id="@+id/tvEmptyList"
             android:layout_width="wrap_content"
