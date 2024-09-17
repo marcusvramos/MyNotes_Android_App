@@ -54,6 +54,9 @@ public class NotaAdapter extends ArrayAdapter<Nota> {
         return convertView;
     }
 
+    public ArrayList<Nota> getItems() {
+        return notas;
+    }
 
     public void sortByPriority() {
         Collections.sort(notas, new Comparator<Nota>() {

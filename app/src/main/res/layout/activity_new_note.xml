@@ -1,56 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:padding="16dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp">
 
-    <EditText
-            android:id="@+id/etTitulo"
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/bottomButtonLayout"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+        <EditText
+                android:id="@+id/etTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Título"
+                android:textSize="18sp" />
+
+        <EditText
+                android:id="@+id/etTexto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Texto"
+                android:textSize="16sp"
+                android:inputType="textMultiLine"
+                android:gravity="top"
+                android:minLines="5" />
+
+        <RadioGroup
+                android:id="@+id/rgPrioridade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <RadioButton
+                    android:id="@+id/rbAlta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Alta Prioridade" />
+
+            <RadioButton
+                    android:id="@+id/rbNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Prioridade Normal" />
+
+            <RadioButton
+                    android:id="@+id/rbBaixa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Baixa Prioridade" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/bottomButtonLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Título"
-            android:textSize="18sp" />
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
-    <EditText
-            android:id="@+id/etTexto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Texto"
-            android:textSize="16sp"
-            android:inputType="textMultiLine"
-            android:gravity="top"
-            android:minLines="5" />
-
-    <RadioGroup
-            android:id="@+id/rgPrioridade"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        <RadioButton
-                android:id="@+id/rbAlta"
+        <Button
+                android:id="@+id/btnSalvar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Alta Prioridade" />
+                android:text="Salvar"
+                android:padding="12dp" />
+    </LinearLayout>
 
-        <RadioButton
-                android:id="@+id/rbNormal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Prioridade Normal" />
-
-        <RadioButton
-                android:id="@+id/rbBaixa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Baixa Prioridade" />
-    </RadioGroup>
-
-    <Button
-            android:id="@+id/btnSalvar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Salvar"
-            android:layout_gravity="center_horizontal"
-            android:padding="12dp"/>
-</LinearLayout>
+</RelativeLayout>

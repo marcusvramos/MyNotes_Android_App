@@ -1,16 +1,17 @@
 package com.example.mynotes;
 
+import android.graphics.PorterDuff;
+import android.widget.ImageView;
 import android.os.Bundle;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.mynotes.db.bean.Agenda;
 import com.example.mynotes.db.bean.Nota;
 
 public class NoteDetailsActivity extends AppCompatActivity {
 
     private TextView tvNoteTitle, tvNoteText, tvNotePriority;
+    private ImageView ivNoteIcon;
     private Agenda agenda;
 
     @Override
@@ -21,6 +22,7 @@ public class NoteDetailsActivity extends AppCompatActivity {
         tvNoteTitle = findViewById(R.id.tvNoteTitle);
         tvNoteText = findViewById(R.id.tvNoteText);
         tvNotePriority = findViewById(R.id.tvNotePriority);
+        ivNoteIcon = findViewById(R.id.ivNoteIcon);
         agenda = new Agenda(this);
 
         int notaId = getIntent().getIntExtra("nota_id", -1);
@@ -31,24 +33,27 @@ public class NoteDetailsActivity extends AppCompatActivity {
             tvNoteText.setText(nota.getTexto());
 
             String prioridadeTexto;
+            int color;
             switch (nota.getPrioridade()) {
                 case 1:
                     prioridadeTexto = "Alta Prioridade";
-                    tvNotePriority.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                    color = getResources().getColor(android.R.color.holo_red_dark);
                     break;
                 case 2:
                     prioridadeTexto = "Prioridade Normal";
-                    tvNotePriority.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
+                    color = getResources().getColor(android.R.color.holo_orange_dark);
                     break;
                 case 3:
                     prioridadeTexto = "Baixa Prioridade";
-                    tvNotePriority.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
+                    color = getResources().getColor(android.R.color.holo_blue_dark);
                     break;
                 default:
                     prioridadeTexto = "Prioridade Desconhecida";
-                    tvNotePriority.setTextColor(getResources().getColor(android.R.color.darker_gray));
+                    color = getResources().getColor(android.R.color.darker_gray);
                     break;
             }
+            tvNotePriority.setTextColor(color);
+            ivNoteIcon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
             tvNotePriority.setText(prioridadeTexto);
         }
     }

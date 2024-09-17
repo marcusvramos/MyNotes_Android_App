@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listViewNotes;
     private NotaAdapter adapter;
     private Agenda agenda;
+    private TextView tvEmptyList; // TextView para mostrar a lista vazia
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +32,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listViewNotes = findViewById(R.id.listViewNotes);
+        tvEmptyList = findViewById(R.id.tvEmptyList); // Inicializando o TextView
         agenda = new Agenda(this);
 
         ArrayList<Nota> notas = agenda.listarNotas("");
         adapter = new NotaAdapter(this, notas);
         listViewNotes.setAdapter(adapter);
+
+        // Verificar se a lista está vazia
+        checkIfListIsEmpty(notas);
 
         listViewNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -60,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                                     adapter.remove(nota);
                                     adapter.notifyDataSetChanged();
                                     Toast.makeText(MainActivity.this, "Anotação apagada!", Toast.LENGTH_SHORT).show();
+                                    checkIfListIsEmpty(adapter.getItems());
                                 } else {
                                     Toast.makeText(MainActivity.this, "Erro ao apagar anotação.", Toast.LENGTH_SHORT).show();
                                 }
@@ -72,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 
     @Override
@@ -84,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.menu_new_note){
+        if (id == R.id.menu_new_note) {
             startActivity(new Intent(MainActivity.this, NewNoteActivity.class));
         } else if (id == R.id.menu_sort_priority) {
             adapter.sortByPriority();
@@ -109,5 +115,17 @@ public class MainActivity extends AppCompatActivity {
         adapter.clear();
         adapter.addAll(notas);
         adapter.notifyDataSetChanged();
+
+        checkIfListIsEmpty(notas);
+    }
+
+    private void checkIfListIsEmpty(ArrayList<Nota> notas) {
+        if (notas.isEmpty()) {
+            tvEmptyList.setVisibility(View.VISIBLE);
+            listViewNotes.setVisibility(View.GONE);
+        } else {
+            tvEmptyList.setVisibility(View.GONE);
+            listViewNotes.setVisibility(View.VISIBLE);
+        }
     }
 }
