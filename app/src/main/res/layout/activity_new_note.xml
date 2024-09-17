@@ -52,6 +52,17 @@
                     android:layout_height="wrap_content"
                     android:text="Baixa Prioridade" />
         </RadioGroup>
+
+        <!-- ImageView para exibir a foto -->
+        <ImageView
+                android:id="@+id/ivFoto"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="Foto da anotação"
+                android:scaleType="centerCrop"
+                android:visibility="gone" /> <!-- Inicialmente escondido até tirar uma foto -->
+
     </LinearLayout>
 
     <LinearLayout
@@ -61,14 +72,25 @@
             android:layout_alignParentBottom="true"
             android:gravity="center"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp">
+            android:paddingBottom="8dp"
+            android:orientation="vertical">
 
+        <!-- Botão para tirar foto -->
+        <Button
+                android:id="@+id/btnTirarFoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tirar Foto"
+                android:padding="12dp" />
+
+        <!-- Botão para salvar a anotação -->
         <Button
                 android:id="@+id/btnSalvar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Salvar"
-                android:padding="12dp" />
+                android:padding="12dp"
+                android:layout_marginTop="8dp" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -1,8 +1,10 @@
 package com.example.mynotes;
 
-import android.graphics.PorterDuff;
-import android.widget.ImageView;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -20,6 +22,7 @@ public class NoteDetailsActivity extends AppCompatActivity {
         TextView tvNoteText = findViewById(R.id.tvNoteText);
         TextView tvNotePriority = findViewById(R.id.tvNotePriority);
         ImageView ivNoteIcon = findViewById(R.id.ivNoteIcon);
+        ImageView ivNoteImage = findViewById(R.id.ivNoteImage); // Novo ImageView para a imagem
         Agenda agenda = new Agenda(this);
 
         int notaId = getIntent().getIntExtra("nota_id", -1);
@@ -50,8 +53,16 @@ public class NoteDetailsActivity extends AppCompatActivity {
                     break;
             }
             tvNotePriority.setTextColor(color);
-            ivNoteIcon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            ivNoteIcon.setColorFilter(color);
             tvNotePriority.setText(prioridadeTexto);
+
+            if (nota.getPhotoPath() != null && !nota.getPhotoPath().isEmpty()) {
+                Bitmap bitmap = BitmapFactory.decodeFile(nota.getPhotoPath());
+                if (bitmap != null) {
+                    ivNoteImage.setImageBitmap(bitmap);
+                    ivNoteImage.setVisibility(View.VISIBLE);
+                }
+            }
         }
     }
 }

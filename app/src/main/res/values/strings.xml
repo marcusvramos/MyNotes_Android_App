@@ -3,4 +3,8 @@
     <string name="adicionar_nova_anota_o">Adicionar Nova Anotação</string>
     <string name="confirm_yes">Sim</string>
     <string name="confirm_no">Não</string>
+    <string name="imagem_da_nota">Imagem da Nota</string>
+    <string name="prioridade">Prioridade</string>
+    <string name="texto">Texto</string>
+    <string name="t_tulo">Título</string>
 </resources>
