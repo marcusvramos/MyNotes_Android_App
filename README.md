@@ -16,6 +16,7 @@ O app exibe as anotações em um ListView personalizado, onde a cor de cada item
 - **Excluir anotações**: Toque longo em um item da lista para excluí-lo.
 - **Visualizar detalhes**: Toque curto em uma anotação para visualizar os detalhes em uma nova tela.
 - **Persistência de dados**: As anotações são salvas no banco de dados SQLite e carregadas automaticamente ao iniciar o aplicativo.
+- **Splash Screen**: Tela customizada assim que inicia o aplicativo.
 
 ## Tecnologias Utilizadas
 - **Linguagem**: Java
