@@ -7,7 +7,7 @@ O app exibe as anotações em um ListView personalizado, onde a cor de cada item
 
 ## Funcionalidades
 
-- **Cadastrar anotações**: Registre uma nova anotação com título, texto e nível de prioridade.
+- **Cadastrar anotações**: Registre uma nova anotação com título, texto e nível de prioridade e imagem (opcional).
 - **Visualizar anotações**: As anotações são exibidas em uma lista, com cores que indicam sua prioridade:
     - Vermelho: Alta
     - Azul: Normal
