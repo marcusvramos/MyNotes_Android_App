@@ -7,4 +7,8 @@
     <string name="prioridade">Prioridade</string>
     <string name="texto">Texto</string>
     <string name="t_tulo">Título</string>
+    <string name="nenhuma_anota_o_dispon_vel">Nenhuma anotação disponível</string>
+    <string name="miniatura_da_foto">Miniatura da foto</string>
+    <string name="preview_da_imagem">Preview da imagem</string>
+    <string name="fechar">Fechar</string>
 </resources>

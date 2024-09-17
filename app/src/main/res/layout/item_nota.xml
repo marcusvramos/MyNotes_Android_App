@@ -31,4 +31,12 @@
                 android:padding="4dp" />
     </LinearLayout>
 
+    <ImageView
+            android:id="@+id/ivFotoMiniatura"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/miniatura_da_foto"
+            android:visibility="gone"
+            android:scaleType="centerCrop" />
 </LinearLayout>

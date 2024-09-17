@@ -1,12 +1,15 @@
 package com.example.mynotes;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +20,8 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.mynotes.db.bean.Agenda;
@@ -27,6 +32,7 @@ import java.io.IOException;
 
 public class NewNoteActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CAMERA_PERMISSION = 100;
     private EditText etTitulo, etTexto;
     private RadioGroup rgPrioridade;
     private ImageView ivFoto;
@@ -59,14 +65,11 @@ public class NewNoteActivity extends AppCompatActivity {
         agenda = new Agenda(this);
 
         btnTirarFoto.setOnClickListener((View v) -> {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                File photoFile = createImageFile();
-                if (photoFile != null) {
-                    photoUri = FileProvider.getUriForFile(this, "com.example.mynotes.fileprovider", photoFile);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                    takePictureLauncher.launch(takePictureIntent);
-                }
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
+            } else {
+                openCamera();
             }
         });
 
@@ -76,7 +79,7 @@ public class NewNoteActivity extends AppCompatActivity {
             int prioridade = getSelectedPriority();
 
             if (!titulo.isEmpty() && prioridade != -1) {
-                Nota nota = new Nota(titulo, texto, prioridade, photoPath); // Salvar com a foto
+                Nota nota = new Nota(titulo, texto, prioridade, photoPath);
                 boolean sucesso = agenda.cadastrarNota(nota);
                 if (sucesso) {
                     Toast.makeText(NewNoteActivity.this, "Anotação salva com sucesso!", Toast.LENGTH_SHORT).show();
@@ -90,6 +93,30 @@ public class NewNoteActivity extends AppCompatActivity {
         });
     }
 
+    private void openCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = createImageFile();
+            if (photoFile != null) {
+                photoUri = FileProvider.getUriForFile(this, "com.example.mynotes.fileprovider", photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                takePictureLauncher.launch(takePictureIntent);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CAMERA_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openCamera();
+            } else {
+                Toast.makeText(this, "Permissão da câmera é necessária para tirar foto.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     private File createImageFile() {
         File photoFile = null;
         try {
@@ -98,7 +125,7 @@ public class NewNoteActivity extends AppCompatActivity {
             photoFile = File.createTempFile(fileName, ".jpg", storageDir);
             photoPath = photoFile.getAbsolutePath();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("NewNoteActivity", "Erro ao criar arquivo de imagem", e);
         }
         return photoFile;
     }

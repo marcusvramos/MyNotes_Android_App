@@ -14,7 +14,7 @@
             android:id="@+id/tvEmptyList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nenhuma anotação disponível"
+            android:text="@string/nenhuma_anota_o_dispon_vel"
             android:textSize="18sp"
             android:textColor="@android:color/darker_gray"
             android:layout_centerInParent="true"
