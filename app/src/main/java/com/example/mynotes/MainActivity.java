@@ -5,12 +5,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listViewNotes;
     private NotaAdapter adapter;
     private Agenda agenda;
-    private TextView tvEmptyList; // TextView para mostrar a lista vazia
+    private TextView tvEmptyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listViewNotes = findViewById(R.id.listViewNotes);
-        tvEmptyList = findViewById(R.id.tvEmptyList); // Inicializando o TextView
+        tvEmptyList = findViewById(R.id.tvEmptyList);
         agenda = new Agenda(this);
 
         ArrayList<Nota> notas = agenda.listarNotas("");
@@ -42,42 +40,34 @@ public class MainActivity extends AppCompatActivity {
         // Verificar se a lista está vazia
         checkIfListIsEmpty(notas);
 
-        listViewNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Nota nota = (Nota) parent.getItemAtPosition(position);
-                Intent intent = new Intent(MainActivity.this, NoteDetailsActivity.class);
-                intent.putExtra("nota_id", nota.getId());
-                startActivity(intent);
-            }
+        listViewNotes.setOnItemClickListener((parent, view, position, id) -> {
+            Nota nota = (Nota) parent.getItemAtPosition(position);
+            Intent intent = new Intent(MainActivity.this, NoteDetailsActivity.class);
+            intent.putExtra("nota_id", nota.getId());
+            startActivity(intent);
         });
 
-        listViewNotes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Nota nota = (Nota) parent.getItemAtPosition(position);
+        listViewNotes.setOnItemLongClickListener((parent, view, position, id) -> {
+            Nota nota = (Nota) parent.getItemAtPosition(position);
 
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("Confirmar Exclusão")
-                        .setMessage("Você tem certeza que deseja apagar esta anotação?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (agenda.apagarNota(nota.getId())) {
-                                    adapter.remove(nota);
-                                    adapter.notifyDataSetChanged();
-                                    Toast.makeText(MainActivity.this, "Anotação apagada!", Toast.LENGTH_SHORT).show();
-                                    checkIfListIsEmpty(adapter.getItems());
-                                } else {
-                                    Toast.makeText(MainActivity.this, "Erro ao apagar anotação.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Confirmar Exclusão")
+                    .setMessage("Você tem certeza que deseja apagar esta anotação?")
+                    .setPositiveButton(R.string.confirm_yes, (dialog, which) -> {
+                        if (agenda.apagarNota(nota.getId())) {
+                            adapter.remove(nota);
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(MainActivity.this, "Anotação apagada!", Toast.LENGTH_SHORT).show();
+                            checkIfListIsEmpty(adapter.getItems());
+                        } else {
+                            Toast.makeText(MainActivity.this, "Erro ao apagar anotação.", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton(R.string.confirm_no, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
 
-                return true;
-            }
+            return true;
         });
     }
 

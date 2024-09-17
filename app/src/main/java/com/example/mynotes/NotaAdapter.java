@@ -1,4 +1,5 @@
 package com.example.mynotes;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,11 +11,10 @@ import android.widget.TextView;
 import com.example.mynotes.db.bean.Nota;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class NotaAdapter extends ArrayAdapter<Nota> {
-    private ArrayList<Nota> notas;
+    private final ArrayList<Nota> notas;
 
     public NotaAdapter(Context context, ArrayList<Nota> notas) {
         super(context, 0, notas);
@@ -37,16 +37,16 @@ public class NotaAdapter extends ArrayAdapter<Nota> {
         int priorityColor;
         switch (nota.getPrioridade()) {
             case 1: // Alta prioridade
-                priorityColor = getContext().getResources().getColor(android.R.color.holo_red_light);
+                priorityColor = ContextCompat.getColor(getContext(), android.R.color.holo_red_light);
                 break;
             case 2: // Prioridade normal
-                priorityColor = getContext().getResources().getColor(android.R.color.holo_orange_light);
+                priorityColor = ContextCompat.getColor(getContext(), android.R.color.holo_orange_light);
                 break;
             case 3: // Baixa prioridade
-                priorityColor = getContext().getResources().getColor(android.R.color.holo_blue_light);
+                priorityColor = ContextCompat.getColor(getContext(), android.R.color.holo_blue_light);
                 break;
             default:
-                priorityColor = getContext().getResources().getColor(android.R.color.darker_gray);
+                priorityColor = ContextCompat.getColor(getContext(), android.R.color.darker_gray);
                 break;
         }
         priorityIndicator.setBackgroundColor(priorityColor);
@@ -59,22 +59,12 @@ public class NotaAdapter extends ArrayAdapter<Nota> {
     }
 
     public void sortByPriority() {
-        Collections.sort(notas, new Comparator<Nota>() {
-            @Override
-            public int compare(Nota o1, Nota o2) {
-                return Integer.compare(o1.getPrioridade(), o2.getPrioridade());
-            }
-        });
+        notas.sort(Comparator.comparingInt(Nota::getPrioridade));
         notifyDataSetChanged();
     }
 
     public void sortByTitle() {
-        Collections.sort(notas, new Comparator<Nota>() {
-            @Override
-            public int compare(Nota o1, Nota o2) {
-                return o1.getTitulo().compareToIgnoreCase(o2.getTitulo());
-            }
-        });
+        notas.sort((o1, o2) -> o1.getTitulo().compareToIgnoreCase(o2.getTitulo()));
         notifyDataSetChanged();
     }
 }

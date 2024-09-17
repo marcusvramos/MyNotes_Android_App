@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -18,7 +17,6 @@ public class NewNoteActivity extends AppCompatActivity {
 
     private EditText etTitulo, etTexto;
     private RadioGroup rgPrioridade;
-    private Button btnSalvar;
     private Agenda agenda;
 
     @Override
@@ -29,28 +27,25 @@ public class NewNoteActivity extends AppCompatActivity {
         etTitulo = findViewById(R.id.etTitulo);
         etTexto = findViewById(R.id.etTexto);
         rgPrioridade = findViewById(R.id.rgPrioridade);
-        btnSalvar = findViewById(R.id.btnSalvar);
+        Button btnSalvar = findViewById(R.id.btnSalvar);
         agenda = new Agenda(this);
 
-        btnSalvar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String titulo = etTitulo.getText().toString();
-                String texto = etTexto.getText().toString();
-                int prioridade = getSelectedPriority();
+        btnSalvar.setOnClickListener((View v) -> {
+            String titulo = etTitulo.getText().toString();
+            String texto = etTexto.getText().toString();
+            int prioridade = getSelectedPriority();
 
-                if (!titulo.isEmpty() && prioridade != -1) {
-                    Nota nota = new Nota(titulo, texto, prioridade);
-                    boolean sucesso = agenda.cadastrarNota(nota);
-                    if (sucesso) {
-                        Toast.makeText(NewNoteActivity.this, "Anotação salva com sucesso!", Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else {
-                        Toast.makeText(NewNoteActivity.this, "Erro ao salvar anotação.", Toast.LENGTH_SHORT).show();
-                    }
+            if (!titulo.isEmpty() && prioridade != -1) {
+                Nota nota = new Nota(titulo, texto, prioridade);
+                boolean sucesso = agenda.cadastrarNota(nota);
+                if (sucesso) {
+                    Toast.makeText(NewNoteActivity.this, "Anotação salva com sucesso!", Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
-                    Toast.makeText(NewNoteActivity.this, "Preencha todos os campos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewNoteActivity.this, "Erro ao salvar anotação.", Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                Toast.makeText(NewNoteActivity.this, "Preencha todos os campos.", Toast.LENGTH_SHORT).show();
             }
         });
     }
